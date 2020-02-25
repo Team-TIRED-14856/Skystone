@@ -67,26 +67,29 @@ public class MecanumDrive extends com.qualcomm.robotcore.eventloop.opmode.OpMode
         robot.frontRight.setPower(kMaxDriveSpeed*fRSpeed);
         robot.backRight.setPower(kMaxDriveSpeed*bRSpeed);
 
-        //Manipulator
-        robot.slide.setPosition((gamepad2.right_stick_y+1)/2);
+        //Scissor lift
         robot.scissor.setPower(gamepad2.left_stick_y);
 
-//        //Hooks
-//        if(bPrevState == false && gamepad2.b == true){
-//            if(robot.hook1.getPosition()<0.5){
-//                robot.hook1.setPosition(1);
-//                robot.hook2.setPosition(0);
-//            }
-//            else{
-//                robot.hook1.setPosition(0);
-//                robot.hook2.setPosition(1);
-//            }
-//        }
-//        bPrevState = gamepad2.b;
+        //Slider
+        if(gamepad2.left_bumper == true){
+            robot.slide.setPosition(0);
+        }
+        else if(gamepad2.right_bumper == true){
+            robot.slide.setPosition(1);
+        }
 
         //Hooks
-        robot.hook1.setPosition((gamepad2.right_stick_y+1)/2);
-        robot.hook2.setPosition((gamepad2.left_stick_y+1)/2);
+        if(bPrevState == false && gamepad2.b == true){
+            if(robot.hook1.getPosition()<0.5){
+                robot.hook1.setPosition(1);
+                robot.hook2.setPosition(1);
+            }
+            else{
+                robot.hook1.setPosition(0);
+                robot.hook2.setPosition(0);
+            }
+        }
+        bPrevState = gamepad2.b;
 
         //Graber
         if(aPrevState == false && gamepad2.a == true){
@@ -106,6 +109,8 @@ public class MecanumDrive extends com.qualcomm.robotcore.eventloop.opmode.OpMode
         telemetry.addData("r", robot.color.red());
         telemetry.addData("Hook 1 pos", robot.hook1.getPosition());
         telemetry.addData("Hook 2 pos", robot.hook2.getPosition());
+        telemetry.addData("Slider pos", robot.slide.getPosition());
+        telemetry.addData("Scissor pos", robot.backLeft.getCurrentPosition());
         telemetry.update();
     }
 
