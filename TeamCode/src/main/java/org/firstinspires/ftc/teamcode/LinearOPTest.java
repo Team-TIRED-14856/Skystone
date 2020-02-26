@@ -31,7 +31,7 @@ public class LinearOPTest extends LinearOpMode {
 
     //Auto Mode-------------------------------------------------------------------------------------------------
 
-        strafeSeconds(1,.5);
+        driveForwardSeconds(1,0.5);
 
         heckingStop();
 
@@ -40,11 +40,11 @@ public class LinearOPTest extends LinearOpMode {
     }
 
     /*
-        Mecanum Drive Values
-        fLSpeed = gamepad1.right_stick_x + gamepad1.left_stick_y - gamepad1.left_stick_x;
-        bLSpeed = gamepad1.right_stick_x + gamepad1.left_stick_y + gamepad1.left_stick_x;
-        fRSpeed = gamepad1.right_stick_x - gamepad1.left_stick_y - gamepad1.left_stick_x;
-        bRSpeed = gamepad1.right_stick_x - gamepad1.left_stick_y + gamepad1.left_stick_x;
+        //Mecanum Drive values
+        fLSpeed = - gamepad1.right_stick_x - gamepad1.left_stick_y + gamepad1.left_stick_x;
+        bLSpeed = - gamepad1.right_stick_x - gamepad1.left_stick_y - gamepad1.left_stick_x;
+        fRSpeed = - gamepad1.right_stick_x + gamepad1.left_stick_y + gamepad1.left_stick_x;
+        bRSpeed = - gamepad1.right_stick_x + gamepad1.left_stick_y - gamepad1.left_stick_x;
      */
 
 
@@ -55,10 +55,10 @@ public class LinearOPTest extends LinearOpMode {
             while(opModeIsActive() && runtime.milliseconds() < sec*1000){
                 p = kpDrive*(startGyro - absoluteGyro);
 
-                robot.frontLeft.setPower(-power - p);
-                robot.backLeft.setPower(-power - p);
-                robot.frontRight.setPower(power - p);
-                robot.backRight.setPower(power - p);
+                robot.frontLeft.setPower(power + p);
+                robot.backLeft.setPower(power + p);
+                robot.frontRight.setPower(-power + p);
+                robot.backRight.setPower(-power + p);
             }
             robot.frontLeft.setPower(0);
             robot.backLeft.setPower(0);
@@ -74,10 +74,10 @@ public class LinearOPTest extends LinearOpMode {
             while(opModeIsActive() && runtime.milliseconds() < timeout*1000 && (robot.color.blue() > kBlueThreshold || robot.color.red() > kRedThreshold)){
                 p = kpDrive*(startGyro - absoluteGyro);
 
-                robot.frontLeft.setPower(-power - p);
-                robot.backLeft.setPower(-power - p);
-                robot.frontRight.setPower(power - p);
-                robot.backRight.setPower(power - p);
+                robot.frontLeft.setPower(power + p);
+                robot.backLeft.setPower(power + p);
+                robot.frontRight.setPower(-power + p);
+                robot.backRight.setPower(-power + p);
             }
             robot.frontLeft.setPower(0);
             robot.backLeft.setPower(0);
@@ -93,10 +93,10 @@ public class LinearOPTest extends LinearOpMode {
             while(opModeIsActive() && runtime.milliseconds() < timeout*1000 && (robot.color.blue() > kBlueThreshold || robot.color.red() > kRedThreshold)){
                 p = kpDrive*(startGyro - absoluteGyro);
 
-                robot.frontLeft.setPower(-power - p);
-                robot.backLeft.setPower(power - p);
-                robot.frontRight.setPower(-power - p);
-                robot.backRight.setPower(power - p);
+                robot.frontLeft.setPower(power + p);
+                robot.backLeft.setPower(-power + p);
+                robot.frontRight.setPower(power + p);
+                robot.backRight.setPower(-power + p);
             }
             robot.frontLeft.setPower(0);
             robot.backLeft.setPower(0);
@@ -115,10 +115,10 @@ public class LinearOPTest extends LinearOpMode {
                 while(opModeIsActive() && actualDegree - absoluteGyro > 1){
                     p = (actualDegree - absoluteGyro) * kpTurn;
 
-                    robot.frontLeft.setPower(-power - p);
-                    robot.frontRight.setPower(-power - p);
-                    robot.backLeft.setPower(-power - p);
-                    robot.backRight.setPower(-power - p);
+                    robot.frontLeft.setPower(power + p);
+                    robot.frontRight.setPower(power + p);
+                    robot.backLeft.setPower(power + p);
+                    robot.backRight.setPower(power + p);
                 }
             }
             //Right
@@ -126,10 +126,10 @@ public class LinearOPTest extends LinearOpMode {
                 while(opModeIsActive() && absoluteGyro - actualDegree > 1){
                     p = (absoluteGyro - actualDegree) * kpTurn;
 
-                    robot.frontLeft.setPower(power + p);
-                    robot.frontRight.setPower(power + p);
-                    robot.backLeft.setPower(power + p);
-                    robot.backRight.setPower(power + p);
+                    robot.frontLeft.setPower(-power - p);
+                    robot.frontRight.setPower(-power - p);
+                    robot.backLeft.setPower(-power - p);
+                    robot.backRight.setPower(-power - p);
                 }
             }
 
@@ -148,10 +148,10 @@ public class LinearOPTest extends LinearOpMode {
             while(opModeIsActive() && runtime.milliseconds() < sec*1000){
                 p = kpDrive*(startGyro - absoluteGyro);
 
-                robot.frontLeft.setPower(-power - p);
-                robot.backLeft.setPower(power - p);
-                robot.frontRight.setPower(-power - p);
-                robot.backRight.setPower(power - p);
+                robot.frontLeft.setPower(power + p);
+                robot.backLeft.setPower(-power + p);
+                robot.frontRight.setPower(power + p);
+                robot.backRight.setPower(-power + p);
             }
             robot.frontLeft.setPower(0);
             robot.backLeft.setPower(0);

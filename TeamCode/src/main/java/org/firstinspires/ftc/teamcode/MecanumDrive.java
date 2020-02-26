@@ -49,30 +49,30 @@ public class MecanumDrive extends com.qualcomm.robotcore.eventloop.opmode.OpMode
         prevGyro = currentGyro;
 
         //Mecanum Drive
-        fLSpeed = gamepad1.right_stick_x + gamepad1.left_stick_y - gamepad1.left_stick_x;
-        bLSpeed = gamepad1.right_stick_x + gamepad1.left_stick_y + gamepad1.left_stick_x;
-        fRSpeed = gamepad1.right_stick_x - gamepad1.left_stick_y - gamepad1.left_stick_x;
-        bRSpeed = gamepad1.right_stick_x - gamepad1.left_stick_y + gamepad1.left_stick_x;
+        fLSpeed = - gamepad1.right_stick_x - gamepad1.left_stick_y + gamepad1.left_stick_x;
+        bLSpeed = - gamepad1.right_stick_x - gamepad1.left_stick_y - gamepad1.left_stick_x;
+        fRSpeed = - gamepad1.right_stick_x + gamepad1.left_stick_y + gamepad1.left_stick_x;
+        bRSpeed = - gamepad1.right_stick_x + gamepad1.left_stick_y - gamepad1.left_stick_x;
 
         //Slow speed button
         if(gamepad1.left_bumper){
-            fLSpeed *= .25;
-            bLSpeed *= .25;
-            fRSpeed *= .25;
-            bRSpeed *= .25;
+            fLSpeed *= kSlowSpeed;
+            bLSpeed *= kSlowSpeed;
+            fRSpeed *= kSlowSpeed;
+            bRSpeed *= kSlowSpeed;
         }
 
-        robot.frontLeft.setPower(kMaxDriveSpeed*fLSpeed);
-        robot.backLeft.setPower(kMaxDriveSpeed*bLSpeed);
-        robot.frontRight.setPower(kMaxDriveSpeed*fRSpeed);
-        robot.backRight.setPower(kMaxDriveSpeed*bRSpeed);
+        robot.frontLeft.setPower(fLSpeed);
+        robot.backLeft.setPower(bLSpeed);
+        robot.frontRight.setPower(fRSpeed);
+        robot.backRight.setPower(bRSpeed);
 
         //Scissor lift
         robot.scissor.setPower(gamepad2.left_stick_y);
 
         //Slider
         if(gamepad2.left_bumper == true){
-            robot.slide.setPosition(0);
+            robot.slide.setPosition(0.7);
         }
         else if(gamepad2.right_bumper == true){
             robot.slide.setPosition(1);
@@ -93,7 +93,7 @@ public class MecanumDrive extends com.qualcomm.robotcore.eventloop.opmode.OpMode
 
         //Graber
         if(aPrevState == false && gamepad2.a == true){
-            if(robot.grabber.getPosition()<0.5){
+            if(robot.grabber.getPosition()<1){
                 robot.grabber.setPosition(1);
             }
             else{

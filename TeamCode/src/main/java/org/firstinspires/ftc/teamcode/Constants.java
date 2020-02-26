@@ -15,7 +15,7 @@ public final class Constants {
     public static final int kBlueThreshold = 55;
     public static final int kRedThreshold = 50;
 
-    //Max teleop drive speed
-    public static final int kMaxDriveSpeed = 1;
+    //Drive Constants
+    public static final double kSlowSpeed = .33;
 
 }
