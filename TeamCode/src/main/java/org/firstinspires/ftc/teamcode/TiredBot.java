@@ -15,17 +15,14 @@ public class TiredBot {
     DcMotor frontLeft,
             frontRight,
             backLeft,
-            backRight;
-
-    DcMotorSimple scissor;
+            backRight,
+            scissor;
 
     BNO055IMU imu;
 
     Servo hook1, hook2, grabber, slide;
 
     ColorSensor color;
-
-
 
     HardwareMap hardwareMap;
 
@@ -42,15 +39,13 @@ public class TiredBot {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
+        scissor = hardwareMap.get(DcMotor.class, "scissor");
 
         //Servo
         hook1 = hardwareMap.get(Servo.class, "hook1");
         hook2 = hardwareMap.get(Servo.class, "hook2");
         grabber = hardwareMap.get(Servo.class,"grabber");
         slide = hardwareMap.get(Servo.class,"drawer");
-
-        //Spark Mini
-        scissor = hardwareMap.get(DcMotorSimple.class, "scissor");
 
         //Gyro
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

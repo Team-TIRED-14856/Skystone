@@ -68,11 +68,11 @@ public class MecanumDrive extends com.qualcomm.robotcore.eventloop.opmode.OpMode
         robot.backRight.setPower(bRSpeed);
 
         //Scissor lift
-        robot.scissor.setPower(gamepad2.left_stick_y);
+        robot.scissor.setPower(-gamepad2.left_stick_y);
 
         //Slider
         if(gamepad2.left_bumper == true){
-            robot.slide.setPosition(0.7);
+            robot.slide.setPosition(0.2);
         }
         else if(gamepad2.right_bumper == true){
             robot.slide.setPosition(1);

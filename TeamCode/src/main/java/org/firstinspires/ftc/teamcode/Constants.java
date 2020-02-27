@@ -3,7 +3,8 @@ package org.firstinspires.ftc.teamcode;
 public final class Constants {
     //PID constants
     public static final double kpTurn = 0.0001;
-    public static final double kpDrive = 0.06;
+    public static final double kpDrive = 0.05;
+    public static final double kpStrafe = 0.05;
 
     //Hook Positions
     public static final double kHook1Down = 1;

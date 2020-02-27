@@ -31,7 +31,9 @@ public class LinearOPTest extends LinearOpMode {
 
     //Auto Mode-------------------------------------------------------------------------------------------------
 
-        driveForwardSeconds(1,0.5);
+        chill(0.01);
+
+        driveToColor(9,0.5);
 
         heckingStop();
 
@@ -71,7 +73,7 @@ public class LinearOPTest extends LinearOpMode {
         if(opModeIsActive()){
             runtime.reset();
             startGyro = absoluteGyro;
-            while(opModeIsActive() && runtime.milliseconds() < timeout*1000 && (robot.color.blue() > kBlueThreshold || robot.color.red() > kRedThreshold)){
+            while(opModeIsActive() && runtime.milliseconds() < timeout*1000 && robot.color.blue() < kBlueThreshold && robot.color.red() < kRedThreshold){
                 p = kpDrive*(startGyro - absoluteGyro);
 
                 robot.frontLeft.setPower(power + p);
