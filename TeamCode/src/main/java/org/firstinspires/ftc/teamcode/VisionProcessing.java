@@ -86,6 +86,9 @@ public class VisionProcessing extends OpenCvPipeline {
                 isStone = false;
             }
         }
+        else{
+            isStone = false;
+        }
 
         return unchanged;
     }

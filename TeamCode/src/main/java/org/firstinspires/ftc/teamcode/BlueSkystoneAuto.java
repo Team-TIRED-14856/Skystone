@@ -13,7 +13,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import static com.qualcomm.hardware.bosch.BNO055IMU.AngleUnit.DEGREES;
 
-@Autonomous(name="Blue Skystone", group="Linear Opmode")
+//@Autonomous(name="Blue Skystone", group="Linear Opmode")
 public class BlueSkystoneAuto extends com.qualcomm.robotcore.eventloop.opmode.OpMode {
 
     ColorSensor color;

@@ -4,10 +4,18 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import static org.firstinspires.ftc.teamcode.Constants.*;
+import static org.firstinspires.ftc.teamcode.Constants.kBlueThreshold;
+import static org.firstinspires.ftc.teamcode.Constants.kHook1Down;
+import static org.firstinspires.ftc.teamcode.Constants.kHook1Up;
+import static org.firstinspires.ftc.teamcode.Constants.kHook2Down;
+import static org.firstinspires.ftc.teamcode.Constants.kHook2Up;
+import static org.firstinspires.ftc.teamcode.Constants.kRedThreshold;
+import static org.firstinspires.ftc.teamcode.Constants.kpDrive;
+import static org.firstinspires.ftc.teamcode.Constants.kpStrafe;
+import static org.firstinspires.ftc.teamcode.Constants.kpTurn;
 
-//@Autonomous(name = "Linear OPMode", group = "Linear Opmode")
-public class LinearOPTest extends LinearOpMode {
+@Autonomous(name = "Blue Foundation", group = "Linear Opmode")
+public class BlueFoundation extends LinearOpMode {
 
     TiredBot robot = new TiredBot();
 
@@ -33,9 +41,21 @@ public class LinearOPTest extends LinearOpMode {
 
         chill(0.1);
 
+        driveForwardSeconds(1.2,-0.5);
+
+        strafeSeconds(2.3,0.5);
+
         hook(true);
 
-        chill(10);
+        chill(1.5);
+
+        strafeSeconds(3.5, -0.5);
+
+        hook(false);
+
+        chill(1.5);
+
+        driveToColor(9,0.3);
 
         heckingStop();
 

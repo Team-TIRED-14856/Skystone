@@ -4,10 +4,22 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import static org.firstinspires.ftc.teamcode.Constants.*;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvInternalCamera;
 
-//@Autonomous(name = "Linear OPMode", group = "Linear Opmode")
-public class LinearOPTest extends LinearOpMode {
+import static org.firstinspires.ftc.teamcode.Constants.kBlueThreshold;
+import static org.firstinspires.ftc.teamcode.Constants.kHook1Down;
+import static org.firstinspires.ftc.teamcode.Constants.kHook1Up;
+import static org.firstinspires.ftc.teamcode.Constants.kHook2Down;
+import static org.firstinspires.ftc.teamcode.Constants.kHook2Up;
+import static org.firstinspires.ftc.teamcode.Constants.kRedThreshold;
+import static org.firstinspires.ftc.teamcode.Constants.kpDrive;
+import static org.firstinspires.ftc.teamcode.Constants.kpStrafe;
+import static org.firstinspires.ftc.teamcode.Constants.kpTurn;
+
+@Autonomous(name = "Blue Skystone", group = "Linear Opmode")
+public class BlueSkystone extends LinearOpMode {
 
     TiredBot robot = new TiredBot();
 
@@ -15,7 +27,13 @@ public class LinearOPTest extends LinearOpMode {
 
     double startGyro, p, absoluteGyro, prevGyro, currentGyro;
 
+    String stonePos = "middle";
+
     Thread gyroThread;
+
+    OpenCvCamera phoneCam;
+
+    VisionProcessing vision;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,6 +42,25 @@ public class LinearOPTest extends LinearOpMode {
         robot.init(hardwareMap);
         gyroThread = new GyroThread();
         gyroThread.start();
+
+        //Camera Stuff
+
+        //Initialize vision object
+        vision = new VisionProcessing();
+
+        //Instantiate the OpenCvCamera object
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+
+        //Open connection to the camera
+        phoneCam.openCameraDevice();
+
+        //Set the vision processing pipeline to the one we want
+        phoneCam.setPipeline(vision);
+
+        //Tell the camera to start streaming images to us
+        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+
     //End Initialization----------------------------------------------------------------------------------------
 
         //The name is wait for start, what do you think it does?
@@ -33,11 +70,58 @@ public class LinearOPTest extends LinearOpMode {
 
         chill(0.1);
 
+        driveForwardSeconds(1.2, 0.5);
+
+        strafeSeconds(1.5, 0.5);
+
+        driveToSkystone(10,-0.3);
+
+        strafeSeconds(1.2, 0.5);
+
         hook(true);
 
-        chill(10);
+        chill(1.5);
+
+        strafeSeconds(1.2, -0.5);
+
+        turnDegrees(-87, 0.5);
+
+        hook(false);
+
+        strafeToColor(9, 0.4);
+
+        strafeSeconds(.7, 1);
+
+        strafeToColor(3, -0.4);
+
+        if(stonePos == "inner" || stonePos == "outer"){
+            strafeSeconds(1.75,-0.5);
+        }
+        else{
+            strafeSeconds(2.25, -0.5);
+        }
+
+        turnDegrees(87, 0.5);
+
+        strafeSeconds(1.2, 0.5);
+
+        hook(true);
+
+        strafeSeconds(1.2, -0.5);
+
+        turnDegrees(-87, 0.5);
+
+        hook(false);
+
+        strafeToColor(3, 0.4);
+
+        strafeSeconds(.7, 1);
+
+        strafeToColor(3, -0.4);
 
         heckingStop();
+
+        chill(10);
 
         gyroThread.interrupt();
 
@@ -87,6 +171,35 @@ public class LinearOPTest extends LinearOpMode {
             robot.backLeft.setPower(0);
             robot.frontRight.setPower(0);
             robot.backRight.setPower(0);
+        }
+    }
+
+    public void driveToSkystone(double timeout, double power){
+        if(opModeIsActive()){
+            runtime.reset();
+            startGyro = absoluteGyro;
+            while(opModeIsActive() && runtime.milliseconds() < timeout*1000 && !vision.isStone){
+                p = kpDrive*(startGyro - absoluteGyro);
+
+                robot.frontLeft.setPower(power + p);
+                robot.backLeft.setPower(power + p);
+                robot.frontRight.setPower(-power + p);
+                robot.backRight.setPower(-power + p);
+            }
+            robot.frontLeft.setPower(0);
+            robot.backLeft.setPower(0);
+            robot.frontRight.setPower(0);
+            robot.backRight.setPower(0);
+
+            if(runtime.milliseconds() < 750){
+                stonePos = "middle";
+            }
+            else if(runtime.milliseconds() < 1500){
+                stonePos = "outer";
+            }
+            else{
+                stonePos = "inner";
+            }
         }
     }
 
@@ -219,8 +332,12 @@ public class LinearOPTest extends LinearOpMode {
                     //Set the prevGyro variable for future gyro stuffs
                     prevGyro = currentGyro;
 
+                    telemetry.addData("Is Stone", vision.isStone);
+                    telemetry.addData("Stone x", vision.stoneX);
+                    telemetry.addData("Stone y", vision.stoneY);
                     telemetry.addData("Gyro", robot.imu.getAngularOrientation().firstAngle);
                     telemetry.addData("Absolute Gyro", absoluteGyro);
+                    telemetry.addData("Stone Position", stonePos);
                     telemetry.update();
                 }
             } catch(Exception e){}

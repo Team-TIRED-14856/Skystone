@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import static com.qualcomm.hardware.bosch.BNO055IMU.AngleUnit.DEGREES;
 
-@Autonomous(name="Red Foundation", group="Linear Opmode")
+//@Autonomous(name="Red Foundation", group="Linear Opmode")
 public class RedFoundationAuto extends com.qualcomm.robotcore.eventloop.opmode.OpMode {
 
     ColorSensor color;

@@ -75,7 +75,7 @@ public class MecanumDrive extends com.qualcomm.robotcore.eventloop.opmode.OpMode
             robot.slide.setPosition(0.2);
         }
         else if(gamepad2.right_bumper == true){
-            robot.slide.setPosition(1);
+            robot.slide.setPosition(0.5);
         }
 
         //Hooks
